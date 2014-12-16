@@ -1,3 +1,0 @@
-INDEX VERSION 1.126+D:\Marcin\PG\chalmers\courses\mobile\project\application\DrawAndGuess\.metadata\.plugins\org.eclipse.jdt.core
-1605251030.index
-957071448.index

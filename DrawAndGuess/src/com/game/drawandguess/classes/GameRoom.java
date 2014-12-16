@@ -11,9 +11,8 @@ import java.util.ArrayList;
  */
 public class GameRoom {
 	private String roomId;
-	private int playesAmount;
+	private int playersAmount;
 	private ArrayList<String> playerList;
-	
 	
 	public String getRoomId() {
 		return roomId;
@@ -22,10 +21,10 @@ public class GameRoom {
 		this.roomId = roomId;
 	}
 	public int getPlayesAmount() {
-		return playesAmount;
+		return playersAmount;
 	}
 	public void setPlayesAmount(int playesAmount) {
-		this.playesAmount = playesAmount;
+		this.playersAmount = playesAmount;
 	}
 	public ArrayList<String> getPlayerList() {
 		return playerList;

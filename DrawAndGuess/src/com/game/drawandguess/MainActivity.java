@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
         
         Button btn = (Button) findViewById(R.id.addRoomBtn);
         
+        //TODO: move it to the first screen 
         SharedPreferences appData = getApplicationContext().getSharedPreferences(getString(R.string.applicationSharedPreferencesKey), Context.MODE_PRIVATE);
         
         String playerName = appData.getString("playerName", "defaultPlayer");

@@ -21,12 +21,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        GameController.getInstance().init(getApplicationContext(), "default");
+        
         Button btn = (Button) findViewById(R.id.addRoomBtn);
         
         //TODO: move it to the first screen 
         SharedPreferences appData = getApplicationContext().getSharedPreferences(getString(R.string.applicationSharedPreferencesKey), Context.MODE_PRIVATE);
         
-        String playerName = appData.getString("playerName", "defaultPlayer");
+        String playerName = appData.getString("playerName", "defaultPlayer2");
         GameController.getInstance().setPlayerName(playerName);
         
         btn.setOnClickListener(new OnClickListener() {

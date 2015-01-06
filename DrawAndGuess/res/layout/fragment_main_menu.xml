@@ -8,10 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.game.drawandguess.MainMenuActivity$PlaceholderFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+     <ListView
+         android:id="@+id/roomListView"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_above="@+id/addRoomBtn"
+         android:layout_alignParentTop="true" >
+    </ListView>
 
     <Button
         android:id="@+id/addRoomBtn"
@@ -19,18 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="22dp"
         android:text="New room" />
-
-    <EditText
-        android:id="@+id/roomNameInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/addRoomBtn"
-        android:layout_marginBottom="34dp"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
 
 </RelativeLayout>

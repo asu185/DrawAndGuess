@@ -1,5 +1,8 @@
 package com.game.drawandguess.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 
 import android.content.Context;
@@ -8,6 +11,7 @@ import android.util.Log;
 import com.game.drawandguess.interaces.GameConnection;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 public class GameController {
@@ -48,6 +52,26 @@ public class GameController {
 
 	public void setCurrentGameRoom(GameRoom currentGameRoom) {
 		this.currentGameRoom = currentGameRoom;
+	}
+
+	public ArrayList<GameRoom> getGameRooms() {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery(GAME_ROOM_TABLE_NAME);
+		query.whereEqualTo("gameState", GameRoom.GAME_STATE_NEW);
+		
+		ArrayList<GameRoom> roomList = new ArrayList<GameRoom>();
+		
+		try {
+			List<ParseObject> findList = query.find();
+			
+			for (ParseObject parseObject : findList) {
+				roomList.add(GameRoom.parseObjectToGameRoom(parseObject));
+			}
+			
+		} catch (ParseException e) {
+			Log.e("DAG", e.getMessage());
+		}
+		
+		return roomList;
 	}
 
 }

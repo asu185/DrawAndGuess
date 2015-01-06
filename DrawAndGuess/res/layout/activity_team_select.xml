@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.game.drawandguess.TeamSelectActivity" >
+    
+     <ListView
+         android:id="@+id/team1ListView"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="4" >
+
+    </ListView>
+
+     <ImageButton
+         android:id="@+id/btnSwitchTeam"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="15dp"
+         android:layout_marginTop="15dp"
+         android:layout_weight=".5"
+         android:background="@android:color/background_dark"
+         android:src="@android:drawable/ic_popup_sync" />
+
+     <ListView
+         android:id="@+id/team2ListView"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="4" >
+    </ListView>
+
+</LinearLayout>

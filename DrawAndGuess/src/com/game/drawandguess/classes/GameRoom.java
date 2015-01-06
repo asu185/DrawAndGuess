@@ -26,7 +26,6 @@ public class GameRoom {
 	private String gameState;
 	private final int maxPeerTeams = 5;
 	
-	private ArrayList<String> playerNameList;
 	private JSONObject playerToTeam;
 	
 	public GameRoom(String roomName, String administrator) {
@@ -35,9 +34,7 @@ public class GameRoom {
 		this.administratorId = administrator;
 		playersAmount = 1;
 		gameState = GAME_STATE_NEW;
-		
-		playerNameList = new ArrayList<String>();
-		playerNameList.add(administratorId);
+
 		
 		playerToTeam = new JSONObject();
 		try {
@@ -48,29 +45,38 @@ public class GameRoom {
 		
 	}
 	
-	public void assignPlayerToTeam(String playerName, int team) {
+	public boolean assignPlayerToTeam(String playerName, int team) {
+		if (playerToTeam.has(playerName)){
+			playerToTeam.remove(playerName);
+			playersAmount--;
+		}
+		
 		if (playersAmount < 10) {
 			try {
 				int team1 = getAmountOfPlayersInTeam(1);
 				int team2 = getAmountOfPlayersInTeam(2);
 
-				if (team == 1 && team1 < 5) {
+				if (team == 1 && team1 < maxPeerTeams) {
 					playerToTeam.put(playerName, 1);
-				} else if (team == 2 && team2 < 5) {
+				} else if (team == 2 && team2 < maxPeerTeams) {
 					playerToTeam.put(playerName, 2);
-				} else if (team == 1 && team2 < 5) {
+				} else if (team == 1 && team2 < maxPeerTeams) {
 					playerToTeam.put(playerName, 2);
-				} else if (team == 2 && team1 < 5) {
+				} else if (team == 2 && team1 < maxPeerTeams) {
 					playerToTeam.put(playerName, 1);
 				}
 
-				playerNameList.add(playerName);
 				playersAmount++;
+				
+				return true;
 
 			} catch (JSONException e) {
 				e.printStackTrace();
+				return false;
 			}
 		}
+		
+		return false;
 	}
 	
 	public String getRoomId() {
@@ -86,10 +92,18 @@ public class GameRoom {
 		this.playersAmount = playesAmount;
 	}
 	public ArrayList<String> getPlayerNameList() {
-		return playerNameList;
-	}
-	public void setPlayerNameList(ArrayList<String> playerList) {
-		this.playerNameList = playerList;
+		JSONArray names = playerToTeam.names();
+		ArrayList<String> namesList = new ArrayList<String>();
+		
+		for (int i=0; i<namesList.size();i++) {
+			try {
+				namesList.add(names.getString(i));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return namesList;
 	}
 
 	public String getRoomName() {
@@ -114,7 +128,6 @@ public class GameRoom {
 		newGameObj.put("roomName", roomName);
 		newGameObj.put("playersAmount", playersAmount);
 		newGameObj.put("administratorId", administratorId);
-		newGameObj.put("playerNameList", playerNameList);
 		newGameObj.put("playersToTeam", playerToTeam);
 		newGameObj.put("gameState", gameState);
 		
@@ -131,24 +144,12 @@ public class GameRoom {
 		tmpGameRoom.setPlayesAmount(parseRoom.getInt("playersAmount"));
 		tmpGameRoom.setRoomId(parseRoom.getObjectId());
 		
-		JSONArray jsonArray = parseRoom.getJSONArray("playerNameList");
-		ArrayList<String> playerList = new ArrayList<String>();
-		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			try {
-				playerList.add(jsonArray.getString(i));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		tmpGameRoom.setPlayerNameList(playerList );
 		tmpGameRoom.setPlayerToTeam(parseRoom.getJSONObject("playersToTeam"));
 		
 		return tmpGameRoom;
 	}
 	
-	private int getAmountOfPlayersInTeam(int number){
+	public int getAmountOfPlayersInTeam(int number){
 		int counter = 0;
 		
 		for (Iterator<String> iterator = playerToTeam.keys(); iterator.hasNext();) {
@@ -162,5 +163,9 @@ public class GameRoom {
 		}
 		
 		return counter;	
+	}
+
+	public JSONObject getPlayerToTeam() {
+		return playerToTeam;
 	}
 }

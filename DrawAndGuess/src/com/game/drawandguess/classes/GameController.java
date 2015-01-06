@@ -21,6 +21,7 @@ public class GameController {
 	private String playerName;
 	private GameConnection connection;
 	private GameRoom currentGameRoom;
+	private String playerColor;
 	
 	public static GameController getInstance(){
 		if (instance == null){
@@ -72,6 +73,14 @@ public class GameController {
 		}
 		
 		return roomList;
+	}
+
+	public String getPlayerColor() {
+		return playerColor;
+	}
+
+	public void setPlayerColor(String playerColor) {
+		this.playerColor = playerColor;
 	}
 
 }

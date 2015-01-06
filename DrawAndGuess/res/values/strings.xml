@@ -7,5 +7,6 @@
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="applicationSharedPreferencesKey">com.game.drawandguess.sharedPrFenx</string>
     <string name="refresh_list">Refresh list</string>
+    <string name="title_activity_team_select">Team selection</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.game.drawandguess;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,18 +22,22 @@ import android.widget.TextView;
 
 import com.game.drawandguess.classes.GameController;
 import com.game.drawandguess.classes.GameRoom;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 public class MainMenuActivity extends Activity {
 
 	public static ArrayAdapter<GameRoom> roomListAdapter;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		
+		
 		setContentView(R.layout.activity_main_menu);
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
@@ -112,6 +117,9 @@ public class MainMenuActivity extends Activity {
 			roomListView = (ListView) rootView.findViewById(R.id.roomListView);
 			roomListView.setAdapter(roomListAdapter);
 			
+			
+			
+			
 			//action joining to room
 			roomListView.setOnItemClickListener(new RoomListOnItemClickListener());
 
@@ -168,15 +176,54 @@ public class MainMenuActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				
-				position++;
+				final ProgressDialog prg = ProgressDialog.show(getActivity(), "", "Joining to the game...");
 				
-				GameRoom selectedRoom = roomListAdapter.getItem(position);
-				selectedRoom.assignPlayerToTeam(GameController.getInstance().getPlayerName(), 1);
+				final GameRoom selectedRoom = roomListAdapter.getItem(position);
 				
-				ParseObject parseObject = selectedRoom.getParseObject();
-				parseObject.saveInBackground();
+				//assign player to free team
+				boolean assignResult = selectedRoom.assignPlayerToTeam(GameController.getInstance().getPlayerName(), 1);
 				
+				final ParseObject parseObject = selectedRoom.getParseObject();
 				
+				//update game room
+				if (assignResult){
+
+					ParseQuery<ParseObject> query = ParseQuery.getQuery(GameController.GAME_ROOM_TABLE_NAME);
+
+					query.getInBackground(selectedRoom.getRoomId(), new GetCallback<ParseObject>() {
+					  public void done(ParseObject gameRoom, ParseException e) {
+					    if (e == null) {
+					    	gameRoom.put("playersAmount", parseObject.get("playersAmount"));
+					    	gameRoom.put("playersToTeam", parseObject.get("playersToTeam"));
+					    	
+					    	gameRoom.saveInBackground(new SaveCallback() {
+								
+								@Override
+								public void done(ParseException ex) {
+									if (ex == null){
+										prg.dismiss();
+										GameController.getInstance().setCurrentGameRoom(selectedRoom);
+										
+										Intent teamSelectIntent = new Intent(getActivity().getApplicationContext(), TeamSelectActivity.class);
+										startActivity(teamSelectIntent);
+										//TODO: go to the next screen
+										//send push notify
+									}else{
+										Log.e("DAG", ex.getMessage());
+										prg.dismiss();
+									}
+									
+								}
+							});	
+					    }else{
+					    	Log.e("DAG", e.getMessage());
+							prg.dismiss();
+					    }
+					  }
+					});
+				}else{
+					prg.dismiss();
+				}
 			}
 
 			

@@ -8,7 +8,9 @@ import org.json.JSONObject;
 import com.game.drawandguess.classes.GameController;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -53,6 +55,14 @@ public class TeamSelectActivity extends Activity {
 		switchTeamBtn = (ImageButton) findViewById(R.id.btnSwitchTeam);
 		
 		switchTeamBtn.setOnClickListener(new SwitchBtnOnClickListener());
+		
+		ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+		
+		ParsePush push = new ParsePush();
+		push.setChannel("test");
+		push.setMessage("test");
+		push.sendInBackground();
+		
 	}
 
 	/*

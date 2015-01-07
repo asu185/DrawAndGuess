@@ -24,8 +24,11 @@ import com.game.drawandguess.classes.GameController;
 import com.game.drawandguess.classes.GameRoom;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.PushService;
 import com.parse.SaveCallback;
 
 public class MainMenuActivity extends Activity {
@@ -36,7 +39,8 @@ public class MainMenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		
+		ParseInstallation.getCurrentInstallation().saveInBackground();
+		ParsePush.subscribeInBackground("test");
 		
 		setContentView(R.layout.activity_main_menu);
 		if (savedInstanceState == null) {

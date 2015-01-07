@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,8 +13,10 @@ import android.util.Log;
 import com.game.drawandguess.interaces.GameConnection;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+import com.parse.SendCallback;
 
 public class GameController {
 	
@@ -81,6 +85,23 @@ public class GameController {
 
 	public void setPlayerColor(String playerColor) {
 		this.playerColor = playerColor;
+	}
+	
+	public void sendNotificationToMyRoomInBackground(String action, JSONObject values, SendCallback sendCallback){
+		ParsePush push = new ParsePush();
+		
+		push.setChannel("A_" + currentGameRoom.getRoomId());
+		try {
+			values.put("action", action);
+			values.put("sender", this.playerName);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		push.setData(values);
+		
+		push.sendInBackground(sendCallback);
+		
 	}
 
 }

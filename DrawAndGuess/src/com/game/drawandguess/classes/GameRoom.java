@@ -2,10 +2,13 @@ package com.game.drawandguess.classes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 import com.game.drawandguess.R;
 import com.parse.ParseObject;
@@ -32,16 +35,18 @@ public class GameRoom {
 		super();
 		this.roomName = roomName;
 		this.administratorId = administrator;
-		playersAmount = 1;
+		playersAmount = 0;
 		gameState = GAME_STATE_NEW;
 
 		
 		playerToTeam = new JSONObject();
-		try {
-			playerToTeam.put(administratorId, 1);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		
+		//TODO:maybe to change - auto join by administrator
+//		try {
+//			playerToTeam.put(administratorId, 1);
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 	
@@ -144,7 +149,11 @@ public class GameRoom {
 		tmpGameRoom.setPlayesAmount(parseRoom.getInt("playersAmount"));
 		tmpGameRoom.setRoomId(parseRoom.getObjectId());
 		
-		tmpGameRoom.setPlayerToTeam(parseRoom.getJSONObject("playersToTeam"));
+		
+		JSONObject player2team = parseRoom.getJSONObject(("playersToTeam"));
+		
+		
+		tmpGameRoom.setPlayerToTeam(player2team);
 		
 		return tmpGameRoom;
 	}

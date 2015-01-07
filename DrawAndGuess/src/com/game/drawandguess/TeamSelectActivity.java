@@ -1,11 +1,13 @@
 package com.game.drawandguess;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.game.drawandguess.classes.GameController;
+import com.game.drawandguess.classes.GameRoom;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -13,6 +15,7 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+import com.parse.SendCallback;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -41,6 +44,14 @@ public class TeamSelectActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_team_select);
 		
+		ParsePush.subscribeInBackground("A_" + GameController.getInstance().getCurrentGameRoom().getRoomId(), new SaveCallback() {
+			
+			@Override
+			public void done(ParseException arg0) {
+				if (arg0 != null) Log.e("DAG", arg0.getMessage());
+			}
+		});
+		
 		team1ListView = (ListView) findViewById(R.id.team1ListView);
 		team2ListView = (ListView) findViewById(R.id.team2ListView);
 		
@@ -56,12 +67,27 @@ public class TeamSelectActivity extends Activity {
 		
 		switchTeamBtn.setOnClickListener(new SwitchBtnOnClickListener());
 		
-		ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+		JSONObject msg = new JSONObject();
 		
-		ParsePush push = new ParsePush();
-		push.setChannel("test");
-		push.setMessage("test");
-		push.sendInBackground();
+		try {
+			msg.put("message", "Player has joined to the team");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		GameController.getInstance().sendNotificationToMyRoomInBackground("refreshTeamList", msg, new SendCallback() {
+			
+			@Override
+			public void done(ParseException ex) {
+				if (ex == null){
+					
+				}else{
+					Log.e("DAG", ex.getMessage());
+				}
+			}
+		});
+		
+
 		
 	}
 
@@ -153,6 +179,26 @@ public class TeamSelectActivity extends Activity {
 										team1Adapter.notifyDataSetChanged();
 										team2Adapter.notifyDataSetChanged();
 										
+										JSONObject msg = new JSONObject();
+										
+										try {
+											msg.put("message", "Player has joined to the team");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										
+										GameController.getInstance().sendNotificationToMyRoomInBackground("refreshTeamList", msg, new SendCallback() {
+											
+											@Override
+											public void done(ParseException ex) {
+												if (ex == null){
+													
+												}else{
+													Log.e("DAG", ex.getMessage());
+												}
+											}
+										});
+										
 										prg.dismiss();
 										//TODO: send push notify
 									}else{
@@ -180,6 +226,46 @@ public class TeamSelectActivity extends Activity {
 
 		}
 
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		Bundle extras = intent.getExtras();
+		
+		String message = extras.getString("pushNotification",null);
+		
+		
+		if (message != null){
+			if (message.contains("refreshTeamList")){
+				ParseQuery<ParseObject> query = ParseQuery.getQuery(GameController.GAME_ROOM_TABLE_NAME);
+				
+				query.getInBackground(GameController.getInstance().getCurrentGameRoom().getRoomId(), new GetCallback<ParseObject>() {
+					
+					@Override
+					public void done(ParseObject newGameRoom, ParseException ex) {
+						
+						try {
+							newGameRoom.fetch();
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						@SuppressWarnings("unused")
+						JSONObject jsonObject = newGameRoom.getJSONObject("playersToTeam");
+						
+						GameRoom gameRoomObj = GameRoom.parseObjectToGameRoom(newGameRoom);
+						
+						GameController.getInstance().setCurrentGameRoom(gameRoomObj);
+						refreshTeamList();
+						team1Adapter.notifyDataSetChanged();
+						team2Adapter.notifyDataSetChanged();
+					}
+				});
+			}
+		}
+		
+		super.onNewIntent(intent);
 	}
 
 }

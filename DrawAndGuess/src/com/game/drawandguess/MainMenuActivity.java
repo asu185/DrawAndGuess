@@ -39,8 +39,6 @@ public class MainMenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ParseInstallation.getCurrentInstallation().saveInBackground();
-		ParsePush.subscribeInBackground("test");
 		
 		setContentView(R.layout.activity_main_menu);
 		if (savedInstanceState == null) {
@@ -151,6 +149,7 @@ public class MainMenuActivity extends Activity {
 								String objectId = newGameObj.getObjectId();
 								newRoom.setRoomId(objectId);
 								GameController.getInstance().setCurrentGameRoom(newRoom);
+								
 							}else{
 								Log.e("DAG", arg0.getMessage());
 							}

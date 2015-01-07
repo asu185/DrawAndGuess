@@ -1,6 +1,8 @@
 package com.game.drawandguess;
 
 import com.game.drawandguess.classes.GameController;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,9 +29,18 @@ public class MainActivity extends Activity {
         
         //TODO: move it to the first screen 
         SharedPreferences appData = getApplicationContext().getSharedPreferences(getString(R.string.applicationSharedPreferencesKey), Context.MODE_PRIVATE);
+        String playerName = appData.getString("playerName", "default");
+
+		if (playerName.contains("default")) {
+			SharedPreferences.Editor editor = appData.edit();
+			editor.putString("playerName", "Marta");
+			editor.commit();
+		}
         
-        String playerName = appData.getString("playerName", "defaultPlayer2");
         GameController.getInstance().setPlayerName(playerName);
+
+		ParseInstallation.getCurrentInstallation().saveInBackground();
+		ParsePush.subscribeInBackground("allNotify");
         
         btn.setOnClickListener(new OnClickListener() {
 			

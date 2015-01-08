@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import com.game.drawandguess.classes.GameController;
 import com.game.drawandguess.classes.GameRoom;
 import com.parse.GetCallback;
+import com.parse.Parse;
+import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -182,7 +184,8 @@ public class TeamSelectActivity extends Activity {
 										JSONObject msg = new JSONObject();
 										
 										try {
-											msg.put("message", "Player has joined to the team");
+											msg.put("message", "Player changed to the team");
+											msg.put("teams", GameController.getInstance().getCurrentGameRoom().getParseObject().get("playersToTeam"));
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -234,34 +237,42 @@ public class TeamSelectActivity extends Activity {
 		
 		String message = extras.getString("pushNotification",null);
 		
-		
 		if (message != null){
 			if (message.contains("refreshTeamList")){
+				
+				String teams = extras.getString("teams",null);
+				
+				if (teams == null){
+				
 				ParseQuery<ParseObject> query = ParseQuery.getQuery(GameController.GAME_ROOM_TABLE_NAME);
 				
 				query.getInBackground(GameController.getInstance().getCurrentGameRoom().getRoomId(), new GetCallback<ParseObject>() {
 					
 					@Override
 					public void done(ParseObject newGameRoom, ParseException ex) {
-						
-						try {
-							newGameRoom.fetch();
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-						@SuppressWarnings("unused")
-						JSONObject jsonObject = newGameRoom.getJSONObject("playersToTeam");
-						
-						GameRoom gameRoomObj = GameRoom.parseObjectToGameRoom(newGameRoom);
-						
+
+						GameRoom gameRoomObj = GameRoom.parseObjectToGameRoom(newGameRoom);	
 						GameController.getInstance().setCurrentGameRoom(gameRoomObj);
+						
 						refreshTeamList();
 						team1Adapter.notifyDataSetChanged();
 						team2Adapter.notifyDataSetChanged();
 					}
 				});
+				}else{
+					JSONObject teamsObj;
+					try {
+						teamsObj = new JSONObject(teams);
+						GameController.getInstance().getCurrentGameRoom().setPlayerToTeam(teamsObj);
+						
+						refreshTeamList();
+						team1Adapter.notifyDataSetChanged();
+						team2Adapter.notifyDataSetChanged();
+						
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}		
+				}
 			}
 		}
 		

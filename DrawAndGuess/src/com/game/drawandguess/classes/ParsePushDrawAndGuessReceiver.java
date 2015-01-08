@@ -68,6 +68,7 @@ public class ParsePushDrawAndGuessReceiver extends ParsePushBroadcastReceiver {
 		String message = extras.getString("com.parse.Data");
 		
 		JSONObject ob = null;
+		JSONObject teams = null;
 		
 		try {
 			ob = new JSONObject(message);
@@ -83,7 +84,11 @@ public class ParsePushDrawAndGuessReceiver extends ParsePushBroadcastReceiver {
 							TeamSelectActivity.class);
 					intent2open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intent2open.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
+					
+					if (ob.has("teams")) {
+						teams = ob.getJSONObject("teams");
+						intent2open.putExtra("teams", teams.toString());
+					}
 					intent2open.putExtra("pushNotification", action);
 					ctx.startActivity(intent2open);
 

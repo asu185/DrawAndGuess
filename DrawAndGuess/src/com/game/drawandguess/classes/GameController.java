@@ -1,6 +1,7 @@
 package com.game.drawandguess.classes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -20,6 +21,7 @@ import com.parse.SendCallback;
 
 public class GameController {
 	
+	public static final String GAME_SESSION_TABLE_NAME = "GameSession";
 	public static final String GAME_ROOM_TABLE_NAME = "GameRoom";
 	private static GameController instance;
 	private String playerName;
@@ -102,6 +104,64 @@ public class GameController {
 		
 		push.sendInBackground(sendCallback);
 		
+	}
+	
+	public ParseObject createGameSession(GameRoom room, int rounds, int drawTime) throws JSONException{
+		ParseObject newSession = new ParseObject(GAME_SESSION_TABLE_NAME);
+		
+		newSession.put("roomId", "A_" + room.getRoomId());
+		newSession.put("round", 0);
+		newSession.put("maxRounds", rounds);
+		newSession.put("drawTime", drawTime);
+		
+		JSONArray team1 = new JSONArray();
+		JSONArray team2 = new JSONArray();
+		
+		JSONObject playerToTeam = room.getPlayerToTeam();
+		
+		int c1 = 0;
+		int c2 = 0;
+		
+		for (Iterator<String> iterator = playerToTeam.keys(); iterator.hasNext();) {
+			String key = (String) iterator.next();
+	
+			if (playerToTeam.getInt(key) == 1){
+				c1++;
+				
+				JSONObject tmpPlayer = new JSONObject();
+				tmpPlayer.put("playerName", key);
+				
+				if (c1 == 1){
+					tmpPlayer.put("playerRole", "G");
+				}else if (c1 == 2){
+					tmpPlayer.put("playerRole", "D");
+				}else{
+					tmpPlayer.put("playerRole", "O");
+				}
+				
+				team1.put(tmpPlayer);
+			}else{
+				c2++;
+				
+				JSONObject tmpPlayer = new JSONObject();
+				tmpPlayer.put("playerName", key);
+				
+				if (c2 == 1){
+					tmpPlayer.put("playerRole", "G");
+				}else if (c2 == 2){
+					tmpPlayer.put("playerRole", "D");
+				}else{
+					tmpPlayer.put("playerRole", "O");
+				}
+				
+				team2.put(tmpPlayer);
+			}
+		}
+		
+		newSession.put("team1",team1);
+		newSession.put("team2",team2);
+		
+		return newSession;
 	}
 
 }

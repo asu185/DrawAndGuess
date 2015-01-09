@@ -131,6 +131,27 @@ public class TeamSelectActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			//TODO:move this code to settings screen
+			try {
+				ParseObject createGameSession = GameController.getInstance().createGameSession(GameController.getInstance().getCurrentGameRoom(), 6, 20);
+				
+				createGameSession.saveInBackground(new SaveCallback() {
+					
+					@Override
+					public void done(ParseException arg0) {
+						if (arg0!=null){
+							Log.e("mojeLogi", arg0.getMessage());
+						}
+						
+					}
+				});
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

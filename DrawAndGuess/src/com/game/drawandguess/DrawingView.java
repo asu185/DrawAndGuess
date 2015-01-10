@@ -103,6 +103,12 @@ public class DrawingView extends View {
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
     }
+	public Canvas getDrawCanvas() {
+		return drawCanvas;
+	}
+	public void setDrawCanvas(Canvas drawCanvas) {
+		this.drawCanvas = drawCanvas;
+	}
 
 
 

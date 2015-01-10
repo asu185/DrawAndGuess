@@ -33,6 +33,7 @@ public class GameController {
 	private static GameController instance;
 	private String playerName;
 	private GameConnection connection;
+	public int guessTime = 30;
 	
 	private GameRoom currentGameRoom;
 	private String playerColor;

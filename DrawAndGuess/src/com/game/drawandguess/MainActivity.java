@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+				//Intent int2 = new Intent(getApplicationContext(), DrawingActivity.class);
 				
 				startActivity(intent);
 				

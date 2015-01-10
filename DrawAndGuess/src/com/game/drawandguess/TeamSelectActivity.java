@@ -22,6 +22,8 @@ import com.parse.SendCallback;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -121,6 +123,7 @@ public class TeamSelectActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.team_select, menu);
+		
 		return true;
 	}
 
@@ -133,7 +136,7 @@ public class TeamSelectActivity extends Activity {
 		if (id == R.id.action_settings) {
 			//TODO:move this code to settings screen
 			try {
-				ParseObject createGameSession = GameController.getInstance().createGameSession(GameController.getInstance().getCurrentGameRoom(), 6, 20);
+				final ParseObject createGameSession = GameController.getInstance().createGameSession(GameController.getInstance().getCurrentGameRoom(), 6, 20);
 				
 				createGameSession.saveInBackground(new SaveCallback() {
 					
@@ -141,6 +144,35 @@ public class TeamSelectActivity extends Activity {
 					public void done(ParseException arg0) {
 						if (arg0!=null){
 							Log.e("mojeLogi", arg0.getMessage());
+						}else{
+							String gameSessionId = createGameSession.getObjectId();
+							GameController.getInstance().setCurrentGameSessionId(gameSessionId);
+							
+							Intent drawingGame = new Intent(getApplicationContext(), DrawingActivity.class);
+							
+							JSONObject msg = new JSONObject();
+							
+							//notify players
+							try {
+								msg.put("message", "Admin started the game");
+								msg.put("sessionId", gameSessionId);
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+							
+							GameController.getInstance().sendNotificationToMyRoomInBackground("sessionCreated", msg, new SendCallback() {
+								
+								@Override
+								public void done(ParseException ex) {
+									if (ex == null){
+										
+									}else{
+										Log.e("DAG", ex.getMessage());
+									}
+								}
+							});
+							
+							startActivity(drawingGame);
 						}
 						
 					}
@@ -294,6 +326,11 @@ public class TeamSelectActivity extends Activity {
 						e.printStackTrace();
 					}		
 				}
+			}else if (message.contains("sessionCreated")){
+				String sessionId = extras.getString("sessionId");
+				GameController.getInstance().setCurrentGameSessionId(sessionId);
+				Intent drawingGame = new Intent(getApplicationContext(), DrawingActivity.class);
+				startActivity(drawingGame);
 			}
 		}
 		

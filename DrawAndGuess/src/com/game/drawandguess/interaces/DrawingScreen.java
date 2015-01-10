@@ -1,13 +1,14 @@
 package com.game.drawandguess.interaces;
 
+import com.game.drawandguess.DrawingView;
+
+/**
+ * Created by wensnoopy on 15/1/7.
+ */
 public interface DrawingScreen {
-	/**
-	 * Methods
-	 */
-	public DrawingScreen getInstance();
-	public void createScreen();
-	public void updateScreen();
-	public void deleteScreen();
-	public <T extends Object> T serializeScreen();
-		
+
+    public void createScreen(DrawingView view);
+    public void updateScreen(DrawingView view, byte[] imgByte);
+    public byte[] getPictureByteArray(DrawingView view);
+
 }

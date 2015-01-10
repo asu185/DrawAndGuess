@@ -43,6 +43,12 @@
             android:label="@string/title_activity_team_select" >
         </activity>
         
+          <activity
+            android:name=".DrawingActivity"
+            android:label="draw"
+            android:launchMode="singleTop" >
+        </activity>
+        
         
         <service android:name="com.parse.PushService" />
 <!--         <receiver android:name="com.parse.ParseBroadcastReceiver" > -->

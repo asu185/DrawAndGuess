@@ -3,6 +3,7 @@ package com.game.drawandguess.classes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.game.drawandguess.DrawingActivity;
 import com.game.drawandguess.TeamSelectActivity;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
@@ -92,6 +93,26 @@ public class ParsePushDrawAndGuessReceiver extends ParsePushBroadcastReceiver {
 					intent2open.putExtra("pushNotification", action);
 					ctx.startActivity(intent2open);
 
+				}else if (action.contains("refreshSession")){
+					Intent intent2open = new Intent(ctx,
+							DrawingActivity.class);
+					
+					intent2open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent2open.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					
+					intent2open.putExtra("pushNotification", action);
+					ctx.startActivity(intent2open);
+				}else if (action.contains("sessionCreated")){
+					Intent intent2open = new Intent(ctx,
+							TeamSelectActivity.class);
+					
+					intent2open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent2open.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					
+					intent2open.putExtra("pushNotification", action);
+					intent2open.putExtra("sessionId", ob.getString("sessionId"));
+					
+					ctx.startActivity(intent2open);
 				}
 			}
 			

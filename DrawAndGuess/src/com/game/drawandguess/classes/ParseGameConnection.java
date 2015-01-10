@@ -17,7 +17,7 @@ public class ParseGameConnection implements GameConnection {
 	@Override
 	public boolean createConnection(Context ctx) {
 		//parse init
-		Parse.enableLocalDatastore(ctx);
+		//Parse.enableLocalDatastore(ctx);
 		Parse.initialize(ctx, "RdX8vekKxiz61K7Pwo8bchKxzIYUFrnfLYpyOyXV", "cuYsUoONHPdi8KhMIIpDKWD13jXJaPpkarDoXKPF");
 		
 		return true;

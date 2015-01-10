@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFCCCCCC"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+ 	<LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="50dp"
+	    android:layout_gravity="center"
+	    android:orientation="horizontal" >
+
+	    <ImageButton
+	    android:id="@+id/new_btn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:contentDescription="start_new"
+	    android:src="@drawable/ic_action_new" />
+
+	    <ImageButton
+	    android:id="@+id/refresh_btn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:contentDescription="erase"
+	    android:src="@drawable/ic_action_refresh" />
+
+	</LinearLayout>
+	
+ 	<LinearLayout
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="50dp"
+ 	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+ 	    
+ 	    android:orientation="horizontal"
+ 	    android:background="@android:color/white" >
+
+ 		<RelativeLayout
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="match_parent"
+ 		    android:layout_weight="7" >
+
+ 			<ImageView
+ 			    android:id="@+id/ivRoleImg"
+ 			    android:layout_width="wrap_content"
+ 			    android:layout_height="wrap_content"
+ 			    android:layout_alignParentRight="true"
+ 			    android:layout_centerVertical="true"
+ 			    android:layout_marginRight="80dp"
+ 			    android:src="@drawable/brush_60" />
+
+ 		</RelativeLayout>
+
+ 		<TextView
+ 		    android:id="@+id/tvTimeCounter"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:layout_weight="4"
+ 		    android:layout_gravity="center"
+ 		    android:text="00"
+ 		    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:orientation="horizontal" >
+
+        <com.game.drawandguess.DrawingView
+	    android:id="@+id/drawing"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginBottom="3dp" 
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:layout_marginTop="3dp"
+	    android:layout_weight="1"
+        android:background="#FFFFFFFF"/>
+        
+
+    </LinearLayout>
+
+	<LinearLayout
+	    android:id="@+id/drawerPanel"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="50dp"
+ 	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+ 	    android:layout_gravity="center"
+ 	    android:orientation="horizontal"
+ 	    android:background="@android:color/white" >
+
+ 		<TextView
+ 		    android:id="@+id/tvQuestion"
+ 		    android:layout_width="0dp"
+ 		    android:layout_height="fill_parent"
+ 		    android:layout_weight="0.8"
+ 		    android:text="00"
+ 		    android:gravity="center"
+ 		    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+ 		<ImageButton
+ 		    android:id="@+id/btnSendPicture"
+ 		    android:layout_width="0dp"
+ 		    android:layout_height="match_parent"
+ 		    android:layout_marginTop="2dp"
+ 		    android:layout_marginBottom="2dp"
+ 		    android:background="@android:color/background_dark"
+ 		    android:layout_weight="0.2"
+ 		    android:src="@drawable/ic_action_done" />
+
+	</LinearLayout>
+
+
+
+</LinearLayout>
+

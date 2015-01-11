@@ -123,6 +123,16 @@ public class ParsePushDrawAndGuessReceiver extends ParsePushBroadcastReceiver {
 					intent2open.putExtra("pushNotification", action);
 					
 					ctx.startActivity(intent2open);
+				}else if (action.contains("endGame")){
+					Intent intent2open = new Intent(ctx,
+							DrawingActivity.class);
+					
+					intent2open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent2open.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					
+					intent2open.putExtra("pushNotification", action);
+					
+					ctx.startActivity(intent2open);
 				}
 			}
 			

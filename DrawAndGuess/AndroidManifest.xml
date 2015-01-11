@@ -15,10 +15,12 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    
-    <permission android:protectionLevel="signature"
-    android:name="com.game.drawandguess.permission.C2D_MESSAGE" />
-	<uses-permission android:name="com.game.drawandguess.permission.C2D_MESSAGE" />
+
+    <permission
+        android:name="com.game.drawandguess.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.game.drawandguess.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
@@ -42,25 +44,23 @@
             android:name=".TeamSelectActivity"
             android:label="@string/title_activity_team_select" >
         </activity>
-        
-          <activity
+        <activity
             android:name=".DrawingActivity"
             android:label="draw"
             android:launchMode="singleTop" >
         </activity>
-        
-        
+
         <service android:name="com.parse.PushService" />
-<!--         <receiver android:name="com.parse.ParseBroadcastReceiver" > -->
-		<receiver android:name="com.game.drawandguess.classes.ParsePushDrawAndGuessReceiver" >
+        <!-- <receiver android:name="com.parse.ParseBroadcastReceiver" > -->
+        <receiver android:name=".classes.ParsePushDrawAndGuessReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <!--         <receiver android:name="com.parse.ParseBroadcastReceiver" > -->
+        <!-- <receiver android:name="com.parse.ParseBroadcastReceiver" > -->
         <receiver
-            android:name="com.game.drawandguess.classes.ParsePushDrawAndGuessReceiver"
+            android:name=".classes.ParsePushDrawAndGuessReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -79,7 +79,13 @@
                 <category android:name="com.game.drawandguess" />
             </intent-filter>
         </receiver>
-        
+
+        <activity
+            android:name=".GameOverActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_game_over"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>

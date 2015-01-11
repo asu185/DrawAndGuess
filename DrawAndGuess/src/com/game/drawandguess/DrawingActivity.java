@@ -49,6 +49,11 @@ public class DrawingActivity extends Activity implements OnClickListener {
 	private LinearLayout guessPanel;
 	private ImageButton btnSendAnswer;
 	private EditText answerInput;
+	private TextView tvQuestionForJudge;
+	private LinearLayout judgePanel;
+	private ImageButton btnSendJudgeYes;
+	private ImageButton btnSendJudgeNo;
+	private TextView tvAnswerForJudge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +71,18 @@ public class DrawingActivity extends Activity implements OnClickListener {
         guessPanel = (LinearLayout) findViewById(R.id.guessPanel);
         btnSendAnswer = (ImageButton) findViewById(R.id.btnSendAnswer);
         answerInput = (EditText) findViewById(R.id.etAnswerInput);
+        tvQuestionForJudge = (TextView) findViewById(R.id.tvQuestionForJudge);
+        tvAnswerForJudge = (TextView) findViewById(R.id.tvAnswerForJudge);
+        judgePanel = (LinearLayout) findViewById(R.id.judgePanel);
+        btnSendJudgeYes = (ImageButton) findViewById(R.id.btnSendJudgeYes);
+        btnSendJudgeNo = (ImageButton) findViewById(R.id.btnSendJudgeNo);
         
         newBtn.setOnClickListener(this);
         btnSendPicture.setOnClickListener(this);
         btnSendAnswer.setOnClickListener(this);
         refreshBtn.setOnClickListener(this);
+        btnSendJudgeYes.setOnClickListener(this);
+        btnSendJudgeNo.setOnClickListener(this);
         
         drawingScreen = AndroidDrawingScreen.getInstance();
         drawingScreen.init(getApplicationContext());
@@ -218,6 +230,8 @@ public class DrawingActivity extends Activity implements OnClickListener {
     		
     		guessPanel.setVisibility(View.GONE);
     		drawerPanel.setVisibility(View.VISIBLE);
+    		judgePanel.setVisibility(View.GONE);
+    		tvQuestionForJudge.setVisibility(View.GONE);
     		
     		
 			int drawingTime = currentSession.getInt("drawTime");
@@ -233,6 +247,8 @@ public class DrawingActivity extends Activity implements OnClickListener {
 			
 			guessPanel.setVisibility(View.VISIBLE);
 			drawerPanel.setVisibility(View.GONE);
+			judgePanel.setVisibility(View.GONE);
+			tvQuestionForJudge.setVisibility(View.GONE);
 		
 			tvTimeCounter.setVisibility(View.VISIBLE);
 			
@@ -243,9 +259,24 @@ public class DrawingActivity extends Activity implements OnClickListener {
 			
 			guessPanel.setVisibility(View.GONE);
 			drawerPanel.setVisibility(View.GONE);
+			judgePanel.setVisibility(View.GONE);
+			tvQuestionForJudge.setVisibility(View.GONE);
 			
 			tvTimeCounter.setVisibility(View.INVISIBLE);
 
+		} else if (playerRole.contains("J")){
+			roleImg.setImageResource(R.drawable.cartoon_60_checkmark);
+			
+			tvQuestionForJudge.setVisibility(View.VISIBLE);
+			tvTimeCounter.setVisibility(View.INVISIBLE);
+			
+			judgePanel.setVisibility(View.VISIBLE);
+			guessPanel.setVisibility(View.GONE);
+			drawerPanel.setVisibility(View.GONE);
+			
+			tvQuestionForJudge.setText(currentSession.getString("question"));
+			tvAnswerForJudge.setText(currentSession.getString("answer") + "?");
+			
 		}
 		
     	currentGameRoom = null;
@@ -486,6 +517,43 @@ public class DrawingActivity extends Activity implements OnClickListener {
 				}
             	
             });
+        }else if (view.getId() == R.id.btnSendJudgeYes){
+        	ParseQuery<ParseObject> querySession = ParseQuery.getQuery("GameSession");
+        	ParseObject currentSession;
+        	
+			try {
+				currentSession = querySession.get(GameController.getInstance().getCurrentGameSessionId());
+		
+					currentSession.put("judge", "T");
+					currentSession.put("state", "P");
+					currentSession.put("screen", GameController.getBlankParseFile());
+					currentSession.save();
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally{
+				currentSession = null;
+			}
+        	
+        }else if (view.getId() == R.id.btnSendJudgeNo){
+        	ParseQuery<ParseObject> querySession = ParseQuery.getQuery("GameSession");
+        	ParseObject currentSession;
+        	
+			try {
+				currentSession = querySession.get(GameController.getInstance().getCurrentGameSessionId());		
+	
+					currentSession.put("judge", "N");
+					currentSession.put("state", "P");
+					currentSession.put("screen", GameController.getBlankParseFile());
+					currentSession.save();
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally{
+				currentSession = null;
+			}
         }
 
     }
@@ -517,6 +585,8 @@ public class DrawingActivity extends Activity implements OnClickListener {
 					//obsluga zgadywania + dodac pobranie odpowiedzi do sprawdzenia
 					currentSession.put("judge", "T");
 					currentSession.put("state", "P");
+					currentSession.put("screen", GameController.getBlankParseFile());
+					
 					currentSession.save();
 				}
 				
@@ -560,6 +630,9 @@ public class DrawingActivity extends Activity implements OnClickListener {
 				
 		}else if (action.contains("nextRound")){
 			drawingScreen.createScreen(drawView);
+		}else if (action.contains("endGame")){
+			Intent intentToRun = new Intent(this, GameOverActivity.class);
+			startActivity(intentToRun);
 		}
 		
 	}

@@ -55,6 +55,16 @@
  		</RelativeLayout>
 
  		<TextView
+ 		    android:id="@+id/tvQuestionForJudge"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:visibility="gone"
+ 		    android:layout_weight="4"
+ 		    android:layout_gravity="center"
+ 		    android:text="abc"
+ 		    android:textAppearance="?android:attr/textAppearanceLarge" />
+ 		
+ 		<TextView
  		    android:id="@+id/tvTimeCounter"
  		    android:layout_width="wrap_content"
  		    android:layout_height="wrap_content"
@@ -123,6 +133,7 @@
  	    android:layout_marginLeft="5dp"
 	    android:layout_marginRight="5dp"
  	    android:layout_gravity="center"
+ 	    android:visibility="gone"
  	    android:orientation="horizontal"
  	    android:background="@android:color/white" >
 
@@ -143,6 +154,48 @@
  		    android:layout_marginBottom="2dp"
  		    android:layout_marginTop="2dp"
  		    android:layout_weight="0.2"
+ 		    android:background="@android:color/background_dark"
+ 		    android:src="@drawable/ic_action_done" />
+
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:id="@+id/judgePanel"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="50dp"
+ 	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+ 	    android:layout_gravity="center"
+ 	    android:orientation="horizontal"
+ 	    android:background="@android:color/white" >
+
+ 		<TextView
+ 		    android:id="@+id/tvAnswerForJudge"
+ 		    android:layout_width="0dp"
+ 		    android:layout_height="fill_parent"
+ 		    android:layout_weight="6"
+ 		    android:text="00"
+ 		    android:gravity="center"
+ 		    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+ 		<ImageButton
+ 		    android:id="@+id/btnSendJudgeNo"
+ 		    android:layout_width="0dp"
+ 		    android:layout_height="match_parent"
+ 		    android:layout_marginBottom="2dp"
+ 		    android:layout_marginRight="5dp"
+ 		    android:layout_marginTop="2dp"
+ 		    android:layout_weight="2"
+ 		    android:background="@android:color/background_dark"
+ 		    android:src="@drawable/ic_action_remove" />
+ 		
+ 		<ImageButton
+ 		    android:id="@+id/btnSendJudgeYes"
+ 		    android:layout_width="0dp"
+ 		    android:layout_height="match_parent"
+ 		    android:layout_marginBottom="2dp"
+ 		    android:layout_marginTop="2dp"
+ 		    android:layout_weight="2"
  		    android:background="@android:color/background_dark"
  		    android:src="@drawable/ic_action_done" />
 

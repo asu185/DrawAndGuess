@@ -8,5 +8,8 @@
     <string name="applicationSharedPreferencesKey">com.game.drawandguess.sharedPrFenx</string>
     <string name="refresh_list">Refresh list</string>
     <string name="title_activity_team_select">Team selection</string>
+    <string name="title_activity_game_over">End game</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

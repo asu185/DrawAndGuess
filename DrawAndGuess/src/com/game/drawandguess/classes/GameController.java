@@ -178,6 +178,17 @@ public class GameController {
 		newSession.put("team2",team2);
 		
 		//create the blank picture
+		
+	    
+	    ParseFile file = getBlankParseFile();
+	    
+	    newSession.put("screen", file);
+
+		
+		return newSession;
+	}
+
+	public static ParseFile getBlankParseFile() {
 		Bitmap bitmap = Bitmap.createBitmap(200, 400, Bitmap.Config.ARGB_8888);
 	    Canvas canvas = new Canvas(bitmap);
 	    canvas.drawColor(Color.WHITE);
@@ -189,10 +200,7 @@ public class GameController {
 	    
 	    ParseFile file = new ParseFile(byteArray);
 	    
-	    newSession.put("screen", file);
-
-		
-		return newSession;
+		return file;
 	}
 
 	public String getCurrentGameSessionId() {

@@ -42,11 +42,21 @@ public class TeamSelectActivity extends Activity {
 	private ArrayAdapter<String> team1Adapter;
 	private ArrayAdapter<String> team2Adapter;
 	private ImageButton switchTeamBtn;
+	private Button btnStartGame;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_team_select);
+		btnStartGame = (Button) findViewById(R.id.btnStartGame);
+		
+		btnStartGame.setOnClickListener(new startGameListener());
+		
+		String administratorId = GameController.getInstance().getCurrentGameRoom().getAdministratorId();
+		
+		if (!administratorId.contains(GameController.getInstance().getPlayerName())){
+			btnStartGame.setVisibility(View.GONE);
+		}
 		
 		ParsePush.subscribeInBackground("A_" + GameController.getInstance().getCurrentGameRoom().getRoomId(), new SaveCallback() {
 			
@@ -337,4 +347,16 @@ public class TeamSelectActivity extends Activity {
 		super.onNewIntent(intent);
 	}
 
+
+	public class startGameListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			Intent intent2start = new Intent(getApplicationContext(), SessionSettingsActivity.class);
+			startActivity(intent2start);
+		}
+
+	}
+
+	
 }

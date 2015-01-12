@@ -86,6 +86,10 @@
             android:label="@string/title_activity_game_over"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity
+            android:name=".SessionSettingsActivity"
+            android:label="@string/title_activity_session_settings" >
+        </activity>
     </application>
 
 </manifest>

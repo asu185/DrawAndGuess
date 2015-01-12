@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="#FFCCCCCC"
     android:orientation="vertical"
     tools:context=".MainActivity" >
@@ -11,7 +11,8 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="50dp"
 	    android:layout_gravity="center"
-	    android:orientation="horizontal" >
+	    android:orientation="horizontal"
+	    android:visibility="gone" >
 
 	    <ImageButton
 	    android:id="@+id/new_btn"
@@ -59,7 +60,7 @@
  		    android:layout_width="wrap_content"
  		    android:layout_height="wrap_content"
  		    android:visibility="gone"
- 		    android:layout_weight="4"
+ 		    android:layout_weight="10"
  		    android:layout_gravity="center"
  		    android:text="abc"
  		    android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -77,13 +78,13 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:orientation="horizontal" >
 
         <com.game.drawandguess.DrawingView
 	    android:id="@+id/drawing"
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
+	    android:layout_height="fill_parent"
 	    android:layout_marginBottom="3dp" 
 	    android:layout_marginLeft="5dp"
 	    android:layout_marginRight="5dp"

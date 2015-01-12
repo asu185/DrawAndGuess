@@ -223,7 +223,6 @@ public class DrawingActivity extends Activity implements OnClickListener {
 		}
 		
 		//manipulate view
-		
     	if (playerRole.contains("D")){
     		roleImg.setImageResource(R.drawable.brush_60);
     		tvQuestion.setText(currentSession.getString("question"));
@@ -347,57 +346,8 @@ public class DrawingActivity extends Activity implements OnClickListener {
     public void onClick(View view){
         //respond to clicks
         if(view.getId() == R.id.refresh_btn){ ///* updateScreen
-            byte[] imgByte = drawingScreen.getPictureByteArray(drawView);         
-            final ParseFile fileScreen = new ParseFile(imgByte);
-            
-            ParseQuery<ParseObject> updateGameQuery = ParseQuery.getQuery("GameSession");
-            
-            updateGameQuery.getInBackground(GameController.getInstance().getCurrentGameSessionId(), new GetCallback<ParseObject>() {
-				
-				@Override
-				public void done(ParseObject session, ParseException ex) {
-					if (ex == null){
-						session.put("screen", fileScreen);
-						session.put("lastEditor", "PLAYER");
-						
-						JSONArray queueArray = session.getJSONArray("queue");
-						JSONArray newQueue = new JSONArray();
-						
-						for (int i=1;i<queueArray.length();i++){
-							try {
-								newQueue.put(queueArray.getInt(i));
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-						}
-						
-						if (newQueue.length() == 0){
-							session.put("state", "J");
-						}
-						
-						session.put("queue", newQueue);
-						
-						session.saveInBackground(new SaveCallback() {
-							
-							@Override
-							public void done(ParseException ex2) {
-								if (ex2 != null){
-									Log.e("DAG", ex2.getMessage());
-								}else{
-									//TODO:progress bar dismiss
-								}
-								
-							}
-						});
-					}else{
-						Log.e("DAG", ex.getMessage());
-					}
-					
-				}
-			});
-            
-//            Log.i("test", "imgByte: " + imgByte);
-//            drawingScreen.updateScreen(drawView, imgByte);
+          
+      
         }
         else if(view.getId()==R.id.new_btn){
             //new button
@@ -501,6 +451,7 @@ public class DrawingActivity extends Activity implements OnClickListener {
  									Log.e("DAG", ex2.getMessage());
  								}else{
  									//TODO:progress bar dismiss
+ 									answerInput.setText("");
  								}
  								
  							}
@@ -572,9 +523,7 @@ public class DrawingActivity extends Activity implements OnClickListener {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }else if (id == R.id.action_judge){
+        if (id == R.id.action_judge){
         	ParseQuery<ParseObject> querySession = ParseQuery.getQuery("GameSession");
         	ParseObject currentSession;
         	
@@ -596,8 +545,58 @@ public class DrawingActivity extends Activity implements OnClickListener {
 			} finally{
 				currentSession = null;
 			}
-        	
-        	
+  
+        	return true;
+        }else if(id == R.id.action_sync){
+        	  byte[] imgByte = drawingScreen.getPictureByteArray(drawView);         
+              final ParseFile fileScreen = new ParseFile(imgByte);
+              
+              ParseQuery<ParseObject> updateGameQuery = ParseQuery.getQuery("GameSession");
+              
+              updateGameQuery.getInBackground(GameController.getInstance().getCurrentGameSessionId(), new GetCallback<ParseObject>() {
+  				
+  				@Override
+  				public void done(ParseObject session, ParseException ex) {
+  					if (ex == null){
+  						session.put("screen", fileScreen);
+  						session.put("lastEditor", "PLAYER");
+  						
+  						JSONArray queueArray = session.getJSONArray("queue");
+  						JSONArray newQueue = new JSONArray();
+  						
+  						for (int i=1;i<queueArray.length();i++){
+  							try {
+  								newQueue.put(queueArray.getInt(i));
+  							} catch (JSONException e) {
+  								e.printStackTrace();
+  							}
+  						}
+  						
+  						if (newQueue.length() == 0){
+  							session.put("state", "J");
+  						}
+  						
+  						session.put("queue", newQueue);
+  						
+  						session.saveInBackground(new SaveCallback() {
+  							
+  							@Override
+  							public void done(ParseException ex2) {
+  								if (ex2 != null){
+  									Log.e("DAG", ex2.getMessage());
+  								}else{
+  									//TODO:progress bar dismiss
+  								}
+  								
+  							}
+  						});
+  					}else{
+  						Log.e("DAG", ex.getMessage());
+  					}
+  					
+  				}
+  			});
+              
         	return true;
         }
         return super.onOptionsItemSelected(item);

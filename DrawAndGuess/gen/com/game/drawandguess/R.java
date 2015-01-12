@@ -33,50 +33,61 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int brush_20=0x7f020000;
-        public static final int brush_60=0x7f020001;
-        public static final int brush_60_binoculars=0x7f020002;
-        public static final int cartoon_60_checkmark=0x7f020003;
-        public static final int cartoon_60_guess=0x7f020004;
-        public static final int ic_action_done=0x7f020005;
-        public static final int ic_action_new=0x7f020006;
-        public static final int ic_action_refresh=0x7f020007;
-        public static final int ic_action_remove=0x7f020008;
-        public static final int ic_action_send=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
+        public static final int background_main=0x7f020000;
+        public static final int brush_20=0x7f020001;
+        public static final int brush_30_arrow_right=0x7f020002;
+        public static final int brush_60=0x7f020003;
+        public static final int brush_60_arrow_right=0x7f020004;
+        public static final int brush_60_binoculars=0x7f020005;
+        public static final int cartoon_60_checkmark=0x7f020006;
+        public static final int cartoon_60_guess=0x7f020007;
+        public static final int ic_action_done=0x7f020008;
+        public static final int ic_action_new=0x7f020009;
+        public static final int ic_action_refresh=0x7f02000a;
+        public static final int ic_action_remove=0x7f02000b;
+        public static final int ic_action_send=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
+        public static final int main_bck_pic=0x7f02000e;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f090016;
-        public static final int action_judge=0x7f09001f;
-        public static final int action_settings=0x7f09001d;
-        public static final int addRoomBtn=0x7f090014;
+        public static final int LinearLayout1=0x7f09001b;
+        public static final int action_judge=0x7f090025;
+        public static final int action_settings=0x7f090023;
+        public static final int action_sync=0x7f090026;
+        public static final int addRoomBtn=0x7f090020;
         public static final int btnSendAnswer=0x7f09000b;
         public static final int btnSendJudgeNo=0x7f09000e;
         public static final int btnSendJudgeYes=0x7f09000f;
         public static final int btnSendPicture=0x7f090008;
-        public static final int btnSwitchTeam=0x7f090018;
-        public static final int container=0x7f090015;
+        public static final int btnStartGame=0x7f090014;
+        public static final int btnStartSessionWithSettings=0x7f09001a;
+        public static final int btnSwitchTeam=0x7f09001d;
+        public static final int container=0x7f090016;
         public static final int drawerPanel=0x7f090006;
         public static final int drawing=0x7f090005;
         public static final int dummy_button=0x7f090012;
         public static final int etAnswerInput=0x7f09000a;
+        public static final int etNameInput=0x7f090013;
         public static final int fullscreen_content=0x7f090010;
         public static final int fullscreen_content_controls=0x7f090011;
         public static final int guessPanel=0x7f090009;
         public static final int ivRoleImg=0x7f090002;
         public static final int judgePanel=0x7f09000c;
         public static final int new_btn=0x7f090000;
+        public static final int npDrawing=0x7f090017;
+        public static final int npRounds=0x7f090019;
         public static final int refresh_btn=0x7f090001;
-        public static final int roomListView=0x7f09001a;
-        public static final int room_refresh=0x7f09001e;
-        public static final int team1ListView=0x7f090017;
-        public static final int team2ListView=0x7f090019;
-        public static final int textView1=0x7f090013;
+        public static final int roomListView=0x7f09001f;
+        public static final int room_refresh=0x7f090024;
+        public static final int team1ListView=0x7f09001c;
+        public static final int team2ListView=0x7f09001e;
+        public static final int textView1=0x7f090015;
+        public static final int textView2=0x7f090018;
         public static final int tvAnswerForJudge=0x7f09000d;
-        public static final int tvPlayersAmount=0x7f09001c;
+        public static final int tvPlayersAmount=0x7f090022;
         public static final int tvQuestion=0x7f090007;
         public static final int tvQuestionForJudge=0x7f090003;
-        public static final int tvRoomName=0x7f09001b;
+        public static final int tvRoomName=0x7f090021;
         public static final int tvTimeCounter=0x7f090004;
     }
     public static final class layout {
@@ -84,16 +95,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_game_over=0x7f030001;
         public static final int activity_main=0x7f030002;
         public static final int activity_main_menu=0x7f030003;
-        public static final int activity_team_select=0x7f030004;
-        public static final int fragment_main_menu=0x7f030005;
-        public static final int list_item_room=0x7f030006;
+        public static final int activity_session_settings=0x7f030004;
+        public static final int activity_team_select=0x7f030005;
+        public static final int fragment_main_menu=0x7f030006;
+        public static final int list_item_room=0x7f030007;
     }
     public static final class menu {
         public static final int draw=0x7f080000;
         public static final int main=0x7f080001;
         public static final int main_menu=0x7f080002;
         public static final int menu_drawing=0x7f080003;
-        public static final int team_select=0x7f080004;
+        public static final int session_settings=0x7f080004;
+        public static final int team_select=0x7f080005;
     }
     public static final class string {
         public static final int action_settings=0x7f060002;
@@ -105,6 +118,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int refresh_list=0x7f060005;
         public static final int title_activity_game_over=0x7f060007;
         public static final int title_activity_main_menu=0x7f060003;
+        public static final int title_activity_session_settings=0x7f06000a;
         public static final int title_activity_team_select=0x7f060006;
     }
     public static final class style {

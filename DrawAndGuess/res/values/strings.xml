@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DrawAndGuess</string>
+    <string name="app_name">Draw and Guess</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="title_activity_main_menu">Room selection</string>
     <string name="applicationSharedPreferencesKey">com.game.drawandguess.sharedPrFenx</string>
     <string name="refresh_list">Refresh list</string>
     <string name="title_activity_team_select">Team selection</string>
     <string name="title_activity_game_over">End game</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_session_settings">Game settings</string>
 
 </resources>

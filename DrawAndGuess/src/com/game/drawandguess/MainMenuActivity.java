@@ -1,10 +1,13 @@
 package com.game.drawandguess;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +37,8 @@ import com.parse.SaveCallback;
 public class MainMenuActivity extends Activity {
 
 	public static ArrayAdapter<GameRoom> roomListAdapter;
+	protected static String m_Text;
+	private static AlertDialog.Builder builder;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class MainMenuActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-	
+
 	}
 
 	@Override
@@ -57,14 +62,9 @@ public class MainMenuActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		
+
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}else if (id == R.id.room_refresh){
+		if (id == R.id.room_refresh){
 			
 			//TODO: progress dialog
 			roomListAdapter.clear();
@@ -119,9 +119,6 @@ public class MainMenuActivity extends Activity {
 			roomListView = (ListView) rootView.findViewById(R.id.roomListView);
 			roomListView.setAdapter(roomListAdapter);
 			
-			
-			
-			
 			//action joining to room
 			roomListView.setOnItemClickListener(new RoomListOnItemClickListener());
 
@@ -138,24 +135,59 @@ public class MainMenuActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					final GameRoom newRoom = new GameRoom("nazwa pokoju", GameController.getInstance().getPlayerName());
-					final ParseObject newGameObj = newRoom.getParseObject();
+					builder = new AlertDialog.Builder(getActivity());
 					
-					newGameObj.saveInBackground(new SaveCallback() {
-						
-						@Override
-						public void done(ParseException arg0) {
-							if (arg0 == null){
-								String objectId = newGameObj.getObjectId();
-								newRoom.setRoomId(objectId);
-								GameController.getInstance().setCurrentGameRoom(newRoom);
-								
-							}else{
-								Log.e("DAG", arg0.getMessage());
-							}
+					builder.setTitle("Type a room name");
+
+					// Set up the input
+					final EditText input = new EditText(getActivity());
+					
+					// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+					input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+					
+					builder.setView(input);
+
+					// Set up the buttons
+					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+					    @Override
+					    public void onClick(final DialogInterface dialog, int which) {
+					        m_Text = input.getText().toString();
+					        
+							final GameRoom newRoom = new GameRoom(m_Text, GameController.getInstance().getPlayerName());
+							final ParseObject newGameObj = newRoom.getParseObject();
 							
-						}
+							newGameObj.saveInBackground(new SaveCallback() {
+								
+								@Override
+								public void done(ParseException arg0) {
+									if (arg0 == null){
+										String objectId = newGameObj.getObjectId();
+										newRoom.setRoomId(objectId);
+										GameController.getInstance().setCurrentGameRoom(newRoom);
+										
+										roomListAdapter.clear();
+										roomListAdapter.addAll(GameController.getInstance().getGameRooms());
+										roomListAdapter.notifyDataSetChanged();
+										
+										dialog.dismiss();
+									}else{
+										Log.e("DAG", arg0.getMessage());
+									}
+									
+								}
+							});
+					        
+					    }
 					});
+					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					    @Override
+					    public void onClick(DialogInterface dialog, int which) {
+					        dialog.cancel();
+					    }
+					});
+					
+					builder.show();
+					
 				}
 			});
 		}

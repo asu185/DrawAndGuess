@@ -35,4 +35,13 @@
          android:layout_weight="4" >
     </ListView>
 
+     <Button
+         android:id="@+id/btnStartGame"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="15dp"
+         android:layout_marginTop="15dp"
+         android:layout_weight=".5"
+         android:text="start the game" />
+     
 </LinearLayout>

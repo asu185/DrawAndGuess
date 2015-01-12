@@ -189,7 +189,7 @@ public class GameController {
 	}
 
 	public static ParseFile getBlankParseFile() {
-		Bitmap bitmap = Bitmap.createBitmap(200, 400, Bitmap.Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(200, 600, Bitmap.Config.ARGB_8888);
 	    Canvas canvas = new Canvas(bitmap);
 	    canvas.drawColor(Color.WHITE);
 	    

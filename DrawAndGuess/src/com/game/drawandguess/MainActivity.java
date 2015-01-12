@@ -14,30 +14,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 public class MainActivity extends Activity {
 
-    @Override
+    private EditText nameInput;
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
         GameController.getInstance().init(getApplicationContext(), "default");
         
-        Button btn = (Button) findViewById(R.id.addRoomBtn);
+        Button btn = (Button) findViewById(R.id.btnStartGame);
+        nameInput = (EditText) findViewById(R.id.etNameInput);
         
-        //TODO: move it to the first screen 
         SharedPreferences appData = getApplicationContext().getSharedPreferences(getString(R.string.applicationSharedPreferencesKey), Context.MODE_PRIVATE);
-        String playerName = appData.getString("playerName", "default");
+        String playerName = appData.getString("playerName", "");
 
-		if (playerName.contains("default")) {
-			SharedPreferences.Editor editor = appData.edit();
-			editor.putString("playerName", "Marta");
-			editor.commit();
-		}
-        
-        GameController.getInstance().setPlayerName(playerName);
+        nameInput.setText(playerName);
 
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 		ParsePush.subscribeInBackground("allNotify");
@@ -47,7 +44,21 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-				//Intent int2 = new Intent(getApplicationContext(), DrawingActivity.class);
+				
+				String name = nameInput.getText().toString();
+				
+				SharedPreferences appData = getApplicationContext().getSharedPreferences(getString(R.string.applicationSharedPreferencesKey), Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = appData.edit();
+				
+				if (name.isEmpty()) {
+					editor.putString("playerName", "default");
+					editor.commit();
+				}else{
+					editor.putString("playerName", name);
+					editor.commit();
+				}
+				
+				GameController.getInstance().setPlayerName(name);
 				
 				startActivity(intent);
 				
@@ -58,16 +69,12 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;

@@ -17,12 +17,14 @@ import com.parse.SaveCallback;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.view.View.OnClickListener;
 
 public class DrawingActivity extends Activity implements OnClickListener {
@@ -629,6 +632,17 @@ public class DrawingActivity extends Activity implements OnClickListener {
 				
 		}else if (action.contains("nextRound")){
 			drawingScreen.createScreen(drawView);
+			
+			Context context = getApplicationContext();
+			CharSequence text = "Team 1: " + Integer.toString(extras.getInt("points1", 0)) + "        Team 2: " + Integer.toString(extras.getInt("points2", 0));
+			
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			
 		}else if (action.contains("endGame")){
 			Intent intentToRun = new Intent(this, GameOverActivity.class);
 			startActivity(intentToRun);

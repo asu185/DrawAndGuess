@@ -1,14 +1,26 @@
 package com.game.drawandguess;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import com.game.drawandguess.classes.GameController;
 import com.game.drawandguess.util.SystemUiHider;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -45,6 +57,10 @@ public class GameOverActivity extends Activity {
 	 */
 	private SystemUiHider mSystemUiHider;
 
+	private TextView tvPoints1;
+
+	private TextView tvPoints2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,6 +69,9 @@ public class GameOverActivity extends Activity {
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
 		final View contentView = findViewById(R.id.fullscreen_content);
+		
+		tvPoints1 = (TextView) contentView.findViewById(R.id.tvPoints1);
+		tvPoints2 = (TextView) contentView.findViewById(R.id.tvPoints2);
 
 		// Set up an instance of SystemUiHider to control the system UI for
 		// this activity.
@@ -114,8 +133,28 @@ public class GameOverActivity extends Activity {
 		// Upon interacting with UI controls, delay any scheduled hide()
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
-		findViewById(R.id.dummy_button).setOnTouchListener(
+		findViewById(R.id.btnGoToMain).setOnTouchListener(
 				mDelayHideTouchListener);
+		
+		
+		
+		ParseQuery<ParseObject> updateGameQuery = ParseQuery.getQuery("GameSession");
+        updateGameQuery.getInBackground(GameController.getInstance().getCurrentGameSessionId(), new GetCallback<ParseObject>() {
+			
+			@Override
+			public void done(ParseObject session, ParseException ex) {
+				if (ex == null){
+					int points1 = session.getInt("points1");
+					int points2 = session.getInt("points2");
+					
+					tvPoints1.setText(Integer.toString(points1));
+					tvPoints2.setText(Integer.toString(points2));
+				}else{
+					Log.e("DAG", ex.getMessage());
+				}
+				
+			}
+		});
 	}
 
 	@Override
@@ -139,6 +178,13 @@ public class GameOverActivity extends Activity {
 			if (AUTO_HIDE) {
 				delayedHide(AUTO_HIDE_DELAY_MILLIS);
 			}
+			
+			Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+			
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			
+			startActivity(intent);
+			
 			return false;
 		}
 	};

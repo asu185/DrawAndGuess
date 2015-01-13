@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#FFCCCCCC"
     android:orientation="vertical"
     tools:context=".MainActivity" >
@@ -40,37 +40,38 @@
  	    android:background="@android:color/white" >
 
  		<RelativeLayout
- 		    android:layout_width="wrap_content"
+ 		    android:layout_width="match_parent"
  		    android:layout_height="match_parent"
- 		    android:layout_weight="7" >
+ 		    android:layout_weight="1" >
 
  			<ImageView
  			    android:id="@+id/ivRoleImg"
- 			    android:layout_width="wrap_content"
+ 			    android:layout_width="match_parent"
  			    android:layout_height="wrap_content"
  			    android:layout_alignParentRight="true"
  			    android:layout_centerVertical="true"
- 			    android:layout_marginRight="80dp"
  			    android:src="@drawable/brush_60" />
 
  		</RelativeLayout>
 
  		<TextView
  		    android:id="@+id/tvQuestionForJudge"
- 		    android:layout_width="wrap_content"
+ 		    android:layout_width="match_parent"
  		    android:layout_height="wrap_content"
  		    android:visibility="gone"
- 		    android:layout_weight="10"
+ 		    android:layout_weight="1"
  		    android:layout_gravity="center"
+ 		    android:gravity="center"
  		    android:text="abc"
  		    android:textAppearance="?android:attr/textAppearanceLarge" />
  		
  		<TextView
  		    android:id="@+id/tvTimeCounter"
- 		    android:layout_width="wrap_content"
+ 		    android:layout_width="match_parent"
  		    android:layout_height="wrap_content"
- 		    android:layout_weight="4"
+ 		    android:layout_weight="1"
  		    android:layout_gravity="center"
+ 		    android:gravity="center"
  		    android:text="00"
  		    android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -84,7 +85,7 @@
         <com.game.drawandguess.DrawingView
 	    android:id="@+id/drawing"
 	    android:layout_width="match_parent"
-	    android:layout_height="fill_parent"
+	    android:layout_height="match_parent"
 	    android:layout_marginBottom="3dp" 
 	    android:layout_marginLeft="5dp"
 	    android:layout_marginRight="5dp"

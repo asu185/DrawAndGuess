@@ -108,6 +108,7 @@ public class ParsePushDrawAndGuessReceiver extends ParsePushBroadcastReceiver {
 					
 					intent2open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intent2open.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					intent2open.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					
 					intent2open.putExtra("pushNotification", action);
 					intent2open.putExtra("sessionId", ob.getString("sessionId"));
@@ -120,6 +121,9 @@ public class ParsePushDrawAndGuessReceiver extends ParsePushBroadcastReceiver {
 					intent2open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intent2open.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					
+					intent2open.putExtra("points1", ob.getInt("points1"));
+					intent2open.putExtra("points2", ob.getInt("points2"));
+			
 					intent2open.putExtra("pushNotification", action);
 					
 					ctx.startActivity(intent2open);

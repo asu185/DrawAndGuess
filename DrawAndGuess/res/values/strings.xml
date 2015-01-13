@@ -12,5 +12,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_session_settings">Game settings</string>
+    <string name="drawing_game">Drawing Game</string>
 
 </resources>

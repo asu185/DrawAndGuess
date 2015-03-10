@@ -1,4 +1,4 @@
 DrawAndGuess
 ============
-nowe
+aaaanowe
 chalmers project
